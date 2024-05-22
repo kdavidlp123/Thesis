@@ -21,3 +21,7 @@ We recored the tracking results in every frame and retrieved the center points o
 1. Based on the ROIs saved in the previous step, we performed adaptive binarization on these regions to obtain the masks converted from the markers.
 2. We used the inpainting algorithm from OPENCV to reconstruct the images. After that, all the markers were removed!!!
 ## 4. Annotation file preparation and dataset registry
+To train our own data, we had to create the annotation file and register custom dataset.
+1. Follow the COCO dataset format, we had to create our annotation file like below:<br>
+  ![image](https://github.com/kdavidlp123/Thesis/assets/69571884/16ea3e82-6a62-4be4-b26d-224552425c7d)
+
