@@ -12,7 +12,7 @@ Here is the demo video of LENS-iAcu:
 * MMDetection : Please refer to the official website of MMDetection for more detailed installation
 * MMPose: Please refer to the official website of MMPose for more detailed installation
 # Keypoint Detection Dataset Preparation
-We provide the original MP4 videos, allowing users to obtain training clips according to the program sequence. Additionally, we offer pre-processed data for direct use.
+Please contact us through the e-mail: P76091519@gs.ncku.edu.tw to acquire the data.
 ## 1. Data collection 
 ## 2. Keypoint coordinates labeling
 1. We used CSRT tracking algorithm from OPENCV to track the manually selected ROIs around markers in the first frame, then the trakcers started to track these ROIs in every frame.<br>
