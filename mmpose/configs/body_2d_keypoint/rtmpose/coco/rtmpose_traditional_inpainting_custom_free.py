@@ -9,14 +9,14 @@ train_cfg = dict(max_epochs=max_epochs, val_interval=10)
 randomness = dict(seed=21)
 
 channel_cfg = dict(
-    num_output_channels=14,
-    dataset_joints=14,
+    num_output_channels=21,
+    dataset_joints=21,
     dataset_channel=[
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
 #        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     ],
     inference_channel=[
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
 #        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13
     ])
 
@@ -86,7 +86,7 @@ model = dict(
     head=dict(
         type='RTMCCHead',
         in_channels=512,
-        out_channels=14,
+        out_channels=21,
         input_size=codec['input_size'],
         in_featuremap_size=(6, 8),
         simcc_split_ratio=codec['simcc_split_ratio'],
@@ -111,8 +111,8 @@ model = dict(
 # base dataset settings
 dataset_type = 'CocoDataset'
 data_mode = 'topdown'
-# data_root = r'D:\keypoint\attached'
-data_root = "../../../../../../../keypoint/attached"
+# data_root = r'D:\keypoint\free'
+data_root = "../../../../../../../traditional_inpainting/free"
 backend_args = dict(backend='local')
 # backend_args = dict(
 #     backend='petrel',
@@ -197,10 +197,10 @@ train_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='5_training_json/training.json',
-        data_prefix=dict(img='5_training_img/'),
+        ann_file='training_json/training.json',
+        data_prefix=dict(img='training_img/'),
         pipeline=train_pipeline,
-        metainfo=dict(from_file='configs/_base_/datasets/custom_attached.py') #這裡的路徑跟data_root的路徑不一樣，這裡吃執行的路徑
+        metainfo=dict(from_file='configs/_base_/datasets/custom.py')
     ))
 val_dataloader = dict(
     batch_size=32,
@@ -212,13 +212,13 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='5_test_json/test.json',
+        ann_file='test_json/test.json',
         # bbox_file='data/coco/person_detection_results/'
         # 'COCO_val2017_detections_AP_H_56_person.json',
-        data_prefix=dict(img='5_test_img/'),
+        data_prefix=dict(img='test_img/'),
         test_mode=True,
         pipeline=val_pipeline,
-        metainfo=dict(from_file='configs/_base_/datasets/custom_attached.py')
+        metainfo=dict(from_file='configs/_base_/datasets/custom.py')
     ))
 test_dataloader = val_dataloader
 
@@ -243,7 +243,7 @@ custom_hooks = [
 val_evaluator = [
     dict(
     type='CocoMetric',
-    ann_file=data_root + '/5_test_json/test.json',
+    ann_file=data_root + '/test_json/test.json',
     use_area=False),
     dict(type = 'EPE')
 ]

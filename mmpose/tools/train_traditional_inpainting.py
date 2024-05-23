@@ -1,4 +1,3 @@
-# Copyright (c) OpenMMLab. All rights reserved.
 import argparse
 import os
 import os.path as osp
@@ -196,7 +195,7 @@ def create_dataset(names, kpt_img_path, kpt_json_path, root_eartype, degrees, ea
     img_index = 0
     anno_file = create_annotation_file(ear_type)
     jsons = os.path.join(root_eartype, "2_json")
-    return_to_ori_size = os.path.join(root_eartype, "4_return_to_ori_size")
+    return_to_ori_size = os.path.join(root_eartype, "total_imgs")
     mmdet_bboxes_json = os.path.join(root_eartype, "5_mmdet_bboxes_json")
 
     
@@ -222,6 +221,7 @@ def create_dataset(names, kpt_img_path, kpt_json_path, root_eartype, degrees, ea
             jsons_name_deg = os.path.join(jsons_name, deg)
             return_to_ori_size_name_deg = os.path.join(return_to_ori_size_name, deg)
             mmdet_bboxes_json_name_deg = os.path.join(mmdet_bboxes_json_name, deg)
+            
 
             if os.path.exists(os.path.join(jsons_name_deg, "keypoint_location.json")):
             
@@ -305,76 +305,81 @@ def create_dataset(names, kpt_img_path, kpt_json_path, root_eartype, degrees, ea
 
 
 def main():
-    root = "../keypoint"
+    root = "../traditional_inpainting"
     ear_types = ["free", "attached"]
     degrees = ['15cm_0mm_0deg', '15cm_25mm_5deg', '15cm_50mm_10deg', '20cm_0mm_0deg', '20cm_25mm_5deg', '20cm_50mm_10deg']
     for ear_type in ear_types:
-        
         args = parse_args()
         if ear_type == "free":
             vars(args)['config'] = vars(args)['config']+"_free.py"
         else:
             vars(args)['config'] = vars(args)['config'] + "_attached.py"
 
+        
+        
+        root_eartype = os.path.join(root, "{ear_type_}".format(ear_type_=ear_type))
+        names = os.listdir(os.path.join(root_eartype,"2_json"))
 
-        root_eartype = os.path.join(root, ear_type)
-        names = os.listdir(os.path.join(root_eartype,"0_original_video"))
+        
         
         for name in names:
-            save_model_path = os.path.join(root, ear_type, "model_save", name)
-            if not os.path.isdir(save_model_path):
-                os.makedirs(save_model_path)
-            # vars(args)['work_dir'] = save_model_path
-            
-            names_copy = names.copy()
-            names_copy.remove(name)
+            if name == "willy":
+
+                save_model_path = os.path.join(root,ear_type, "model_save", name)
+                if not os.path.isdir(save_model_path):
+                    os.makedirs(save_model_path)
+                else:
+                    shutil.rmtree(save_model_path)
+                    os.makedirs(save_model_path)
+                vars(args)['work_dir'] = save_model_path
+
+                names_copy = names.copy()
+                names_copy.remove(name)
+
+                training_kpt_img_path = os.path.join(root_eartype, "training_img")
+                training_kpt_json_path = os.path.join(root_eartype, "training_json")
+                create_dataset(names_copy, training_kpt_img_path, training_kpt_json_path, root_eartype, degrees, ear_type,use_bbox = True, dataset_type = "training")
 
 
-            # training_kpt_img_path = os.path.join(root_eartype, "5_training_img")
-            # training_kpt_json_path = os.path.join(root_eartype, "5_training_json")
-            # create_dataset(names_copy, training_kpt_img_path, training_kpt_json_path, root_eartype, degrees, ear_type,use_bbox = True, dataset_type = "training")
-
-
-            test_kpt_img_path = os.path.join(root_eartype, "5_test_img")
-            test_kpt_json_path = os.path.join(root_eartype, "5_test_json")
-            create_dataset([name], test_kpt_img_path, test_kpt_json_path, root_eartype, degrees, ear_type, use_bbox = True, dataset_type = "test")
+                test_kpt_img_path = os.path.join(root_eartype, "test_img")
+                test_kpt_json_path = os.path.join(root_eartype, "test_json")
+                create_dataset([name], test_kpt_img_path, test_kpt_json_path, root_eartype, degrees, ear_type, use_bbox = True, dataset_type = "test")
 
 
 
-            # k_fold_result = os.path.join("k_fold", "result")
-            # copytree(test_kpt_img_path, os.path.join(k_fold_result, ear_type, name,"5_test_img"))
-            # copytree(test_kpt_json_path, os.path.join(k_fold_result, ear_type, name,"5_test_json"))
-            
-            copytree(test_kpt_img_path, os.path.join(root, ear_type, "7_result", name,"5_test_img"))
-            copytree(test_kpt_json_path, os.path.join(root, ear_type, "7_result", name,"5_test_json"))
+                k_fold_result = os.path.join(root_eartype, "result")
+                copytree(test_kpt_img_path, os.path.join(k_fold_result, name,"test_img"))
+                copytree(test_kpt_json_path, os.path.join(k_fold_result, name,"test_json"))
 
 
-                    
-                    # # load config
-                    # cfg = Config.fromfile(args.config)
 
-                    # # merge CLI arguments to config
-                    # cfg = merge_args(cfg, args)
+                # load config
+                cfg = Config.fromfile(args.config)
 
-                    # # set preprocess configs to model
-                    # if 'preprocess_cfg' in cfg:
-                    #     cfg.model.setdefault('data_preprocessor',
-                    #                         cfg.get('preprocess_cfg', {}))
+                # merge CLI arguments to config
+                cfg = merge_args(cfg, args)
 
-                    # # build the runner from config
-                    # runner = Runner.from_cfg(cfg)
+                # set preprocess configs to model
+                if 'preprocess_cfg' in cfg:
+                    cfg.model.setdefault('data_preprocessor',
+                                        cfg.get('preprocess_cfg', {}))
 
-                    # # start training
-                    # runner.train()
+                # build the runner from config
+                runner = Runner.from_cfg(cfg)
 
-                    # try:
-                    #     shutil.rmtree(training_kpt_img_path)
-                    #     shutil.rmtree(training_kpt_json_path)
-                    #     shutil.rmtree(test_kpt_img_path)
-                    #     shutil.rmtree(test_kpt_json_path)
-                    #     print('Folder and its content removed') # Folder and its content removed
-                    # except:
-                    #     print('Folder not deleted')
+                # start training
+                runner.train()
+
+                try:
+                    shutil.rmtree(training_kpt_img_path)
+                    shutil.rmtree(training_kpt_json_path)
+                    shutil.rmtree(test_kpt_img_path)
+                    shutil.rmtree(test_kpt_json_path)
+                    print('Folder and its content removed') # Folder and its content removed
+                except:
+                    print('Folder not deleted')
+            else:
+                pass
             
 
 

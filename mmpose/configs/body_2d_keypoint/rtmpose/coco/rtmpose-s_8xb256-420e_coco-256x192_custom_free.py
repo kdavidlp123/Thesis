@@ -3,7 +3,7 @@ _base_ = ['../../../_base_/default_runtime.py']
 # runtime
 max_epochs = 100
 stage2_num_epochs = 30
-base_lr = 4e-3
+base_lr = 4e-4
 
 train_cfg = dict(max_epochs=max_epochs, val_interval=10)
 randomness = dict(seed=21)
@@ -31,7 +31,7 @@ optim_wrapper = dict(
 param_scheduler = [
     dict(
         type='LinearLR',
-        start_factor=1.0e-5,
+        start_factor=1.0e-7,
         by_epoch=False,
         begin=0,
         end=1000),

@@ -112,7 +112,7 @@ model = dict(
 dataset_type = 'CocoDataset'
 data_mode = 'topdown'
 # data_root = r'D:\keypoint\attached'
-data_root = "../../../../../../../keypoint/attached"
+data_root = "../../../../../../../traditional_inpainting/attached"
 backend_args = dict(backend='local')
 # backend_args = dict(
 #     backend='petrel',
@@ -197,8 +197,8 @@ train_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='5_training_json/training.json',
-        data_prefix=dict(img='5_training_img/'),
+        ann_file='training_json/training.json',
+        data_prefix=dict(img='training_img/'),
         pipeline=train_pipeline,
         metainfo=dict(from_file='configs/_base_/datasets/custom_attached.py') #這裡的路徑跟data_root的路徑不一樣，這裡吃執行的路徑
     ))
@@ -212,10 +212,10 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='5_test_json/test.json',
+        ann_file='test_json/test.json',
         # bbox_file='data/coco/person_detection_results/'
         # 'COCO_val2017_detections_AP_H_56_person.json',
-        data_prefix=dict(img='5_test_img/'),
+        data_prefix=dict(img='test_img/'),
         test_mode=True,
         pipeline=val_pipeline,
         metainfo=dict(from_file='configs/_base_/datasets/custom_attached.py')
@@ -243,7 +243,7 @@ custom_hooks = [
 val_evaluator = [
     dict(
     type='CocoMetric',
-    ann_file=data_root + '/5_test_json/test.json',
+    ann_file=data_root + '/test_json/test.json',
     use_area=False),
     dict(type = 'EPE')
 ]
