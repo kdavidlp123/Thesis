@@ -160,3 +160,8 @@ cython_debug/
 #.idea/
 
 TensorRT-8.5.3.1
+
+#data
+keypoint/
+traditional_inpainting/
+dilation_inpainting/
