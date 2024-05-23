@@ -30,12 +30,6 @@ To train our own data, we had to create the annotation file and register custom 
   ![image](https://github.com/kdavidlp123/Thesis/assets/69571884/5a3bf913-c47a-4b13-9a75-8d07b4fee4f8)
 4. After all the above steps were finished, import the class “customdataset” and add the string “customdataset” to the list “__all__” in the “__init__.py” python file under folder “mmpose/datasets/datasets/body” as shown below:<br>
   ![image](https://github.com/kdavidlp123/Thesis/assets/69571884/773e6899-5bb9-41d3-9bee-e549004a081a)
-# Train RTMPose Model
-1. Copy a RTMPose config file under the folder “configs/body_2d_keypoint/rtmpose/coco” and modify the code as below:<br>
-   ![image](https://github.com/kdavidlp123/Thesis/assets/69571884/47c2d224-0726-4087-85a3-2800c11d17c7)<br>
-   ※ The “data_root”, “ann_file”, “data_prefix” can be changed to what you arrage.
-2. Run the cmd:<br>
-```python tools\train.py configs\body_2d_keypoint\rtmpose\coco\**your_own_rtmpose_cfg_file_name** ```
 
 
 
