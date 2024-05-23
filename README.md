@@ -11,7 +11,7 @@ Here is the demo video of LENS-iAcu:
 # Installation
 * MMDetection : Please refer to the official website of MMDetection for more detailed installation
 * MMPose: Please refer to the official website of MMPose for more detailed installation
-# Dataset Preparation
+# Keypoint Detection Dataset Preparation
 We provide the original MP4 videos, allowing users to obtain training clips according to the program sequence. Additionally, we offer pre-processed data for direct use.
 ## 1. Data collection 
 ## 2. Keypoint coordinates labeling
