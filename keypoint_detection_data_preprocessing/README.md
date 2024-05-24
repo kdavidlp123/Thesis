@@ -9,9 +9,19 @@ In this research, we treated auricular acupoints as keypoints.
   <img src="https://github.com/kdavidlp123/Thesis/assets/69571884/8e9804b5-c8d7-4c88-9798-6c77293539e0" width="100%" height="100%" />
 
 ## 1. Data collection 
-We collected the data <br>
+We set the camera at different heights, angles and distances to collect the data.
+* Distance: The horizontal distance from lens to ear
+* Height – The height of table from desktop to ground
+* High Angle – The angle of camera overlooking the ear
+* Rotating Angle – The angle of camera rotating around the ears which is adjusted to match the Height to prevent the ears from being out of the frame."
+
+
+
 <img src="https://github.com/kdavidlp123/Thesis/assets/69571884/c769aa7e-3bed-4675-8494-4fb322d4dab2" width="60%" height="60%" />
-<img src="https://github.com/kdavidlp123/Thesis/assets/69571884/4f2a3703-390f-47c0-96bf-88b9f02b13c8" width="60%" height="60%" />
+<img src="https://github.com/kdavidlp123/Thesis/assets/69571884/0df6f3bd-eead-4265-9d62-cb45ab1549ea" width="60%" height="60%" />
+
+
+
 
 
 
