@@ -1,7 +1,9 @@
 # Thesis
 # Introduction
 LENS-iAcu is an mobile application which can localize auricular acupoint in real-time scenario. This project is implemented based on OpenMMLab.
-Here is the demo video of LENS-iAcu:
+Here is the demo video of LENS-iAcu:<br>
+#https://youtu.be/qC5TXhiM7pM
+
 # Environment Settings
 * Windows 10
 * Anaconda
