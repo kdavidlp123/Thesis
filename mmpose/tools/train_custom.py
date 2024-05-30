@@ -144,8 +144,6 @@ def copytree(src, dst, symlinks=False, ignore=None):
     if not os.path.isdir(dst):
         os.makedirs(dst)
     else:
-        shutil.rmtree(dst)
-        os.makedirs(dst)
         for item in os.listdir(src):
             s = os.path.join(src, item)
             d = os.path.join(dst, item)
@@ -305,7 +303,9 @@ def create_dataset(names, kpt_img_path, kpt_json_path, root_eartype, degrees, ea
 
 
 def main():
+    
     root = "../keypoint"
+    save_root = "../MAT_inpainting"
     ear_types = ["free", "attached"]
     degrees = ['15cm_0mm_0deg', '15cm_25mm_5deg', '15cm_50mm_10deg', '20cm_0mm_0deg', '20cm_25mm_5deg', '20cm_50mm_10deg']
     for ear_type in ear_types:
@@ -321,9 +321,12 @@ def main():
         names = os.listdir(os.path.join(root_eartype,"0_original_video"))
         
         for name in names:
-            save_model_path = os.path.join(root, ear_type, "model_save", name)
-            if not os.path.isdir(save_model_path):
-                os.makedirs(save_model_path)
+            # save_model_path = os.path.join(save_root, ear_type, "model_save", name)
+            # if not os.path.isdir(save_model_path):
+            #     os.makedirs(save_model_path)
+            # else:
+            #     shutil.rmtree(save_model_path)
+            #     os.makedirs(save_model_path)
             # vars(args)['work_dir'] = save_model_path
             
             names_copy = names.copy()
@@ -345,8 +348,8 @@ def main():
             # copytree(test_kpt_img_path, os.path.join(k_fold_result, ear_type, name,"5_test_img"))
             # copytree(test_kpt_json_path, os.path.join(k_fold_result, ear_type, name,"5_test_json"))
             
-            copytree(test_kpt_img_path, os.path.join(root, ear_type, "7_result", name,"5_test_img"))
-            copytree(test_kpt_json_path, os.path.join(root, ear_type, "7_result", name,"5_test_json"))
+            copytree(test_kpt_img_path, os.path.join(save_root, ear_type, "result", name,"test_img"))
+            copytree(test_kpt_json_path, os.path.join(save_root, ear_type, "result", name,"test_json"))
 
 
                     
