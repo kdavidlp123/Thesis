@@ -57,6 +57,8 @@ def main():
     """
     after_inpainting = "../keypoint/free/4_after_inpainting"
     keypoint_ = "../keypoint"
+    MAT_inpainting = "../MAT_inpainting"
+    traditional_inpainting_MAT_model = "../traditional_inpainting_MAT_model"
     traditional_inpainting = "../traditional_inpainting"
     ear_types = ["free", "attached"]
     degrees = ['15cm_0mm_0deg', '15cm_25mm_5deg', '15cm_50mm_10deg', '20cm_0mm_0deg', '20cm_25mm_5deg', '20cm_50mm_10deg']
@@ -78,11 +80,11 @@ def main():
             
         # else:
         #     acupoints_num = 14
-        names = os.listdir(os.path.join(traditional_inpainting, ear_type, "model_save"))
+        names = os.listdir(os.path.join(MAT_inpainting, ear_type, "model_save"))
         for name in names:
             
 
-            best_kpt_model = glob.glob(os.path.join(traditional_inpainting, ear_type, "model_save", name,"best*.pth"))[0]
+            best_kpt_model = glob.glob(os.path.join(MAT_inpainting, ear_type, "model_save", name,"best*.pth"))[0]
 
             pose_estimator = init_pose_estimator(
             model_config,
@@ -94,6 +96,7 @@ def main():
 
             
             # for deg in degrees:
+            # imgs = os.listdir(os.path.join(traditional_inpainting, ear_type, "result", name, "test_img"))
             imgs = os.listdir(os.path.join(traditional_inpainting, ear_type, "result", name, "test_img"))
             
             imgs = sorted(imgs, key = lambda s : int(os.path.splitext(os.path.basename(s))[0][5:]), reverse = False)
@@ -101,6 +104,8 @@ def main():
             total_count = 0
             df = pd.DataFrame()
             for img in imgs:
+                # pred_instances = process_one_image(os.path.join(traditional_inpainting, ear_type, "result", name, "test_img", img), detector, pose_estimator)
+                print(os.path.join(traditional_inpainting, ear_type, "result", name, "test_img", img))
                 pred_instances = process_one_image(os.path.join(traditional_inpainting, ear_type, "result", name, "test_img", img), detector, pose_estimator)
                 pred_instances_list = split_instances(pred_instances)
                 kpts = pred_instances_list[0]["keypoints"]
@@ -119,9 +124,9 @@ def main():
                 after_inpainting_name_deg = os.path.join(keypoint_, ear_type, "4_after_inpainting", name, deg)
                 frame_count = len(os.listdir(after_inpainting_name_deg))
 
-                if not os.path.isdir(os.path.join(traditional_inpainting, ear_type, "result", name, "pred", deg)):
-                    os.makedirs(os.path.join(traditional_inpainting, ear_type, "result", name, "pred", deg))
-                df.iloc[count:count+frame_count,:].to_csv(os.path.join(traditional_inpainting, ear_type, "result", name, "pred", deg, "pred.csv"))
+                if not os.path.isdir(os.path.join(traditional_inpainting_MAT_model, ear_type, "result", name, "pred", deg)):
+                    os.makedirs(os.path.join(traditional_inpainting_MAT_model, ear_type, "result", name, "pred", deg))
+                df.iloc[count:count+frame_count,:].to_csv(os.path.join(traditional_inpainting_MAT_model, ear_type, "result", name, "pred", deg, "pred.csv"))
                 count = count + frame_count
 
 

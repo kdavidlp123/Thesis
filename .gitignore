@@ -167,3 +167,7 @@ traditional_inpainting/
 dilation_inpainting/
 ear_detection/
 MAT_inpainting/
+MAT_inpainting_traditional_model/
+traditional_inpainting_MAT_model/
+ground_truth/
+figure/
