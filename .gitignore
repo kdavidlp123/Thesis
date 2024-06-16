@@ -170,5 +170,10 @@ MAT_inpainting/
 MAT_inpainting_traditional_model/
 traditional_inpainting_MAT_model/
 ground_truth/
-figure/
-occluded_imgs/
+figures/
+occluded_imgs_csv/
+occluded_result
+without_bbox/
+rotation_img/
+rotation_csv/
+MAT/

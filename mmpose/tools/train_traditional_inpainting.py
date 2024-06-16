@@ -323,64 +323,62 @@ def main():
         
         
         for name in names:
-            if name == "willy":
-
-                save_model_path = os.path.join(root,ear_type, "model_save", name)
-                if not os.path.isdir(save_model_path):
-                    os.makedirs(save_model_path)
-                else:
-                    shutil.rmtree(save_model_path)
-                    os.makedirs(save_model_path)
-                vars(args)['work_dir'] = save_model_path
-
-                names_copy = names.copy()
-                names_copy.remove(name)
-
-                training_kpt_img_path = os.path.join(root_eartype, "training_img")
-                training_kpt_json_path = os.path.join(root_eartype, "training_json")
-                create_dataset(names_copy, training_kpt_img_path, training_kpt_json_path, root_eartype, degrees, ear_type,use_bbox = True, dataset_type = "training")
-
-
-                test_kpt_img_path = os.path.join(root_eartype, "test_img")
-                test_kpt_json_path = os.path.join(root_eartype, "test_json")
-                create_dataset([name], test_kpt_img_path, test_kpt_json_path, root_eartype, degrees, ear_type, use_bbox = True, dataset_type = "test")
-
-
-
-                k_fold_result = os.path.join(root_eartype, "result")
-                copytree(test_kpt_img_path, os.path.join(k_fold_result, name,"test_img"))
-                copytree(test_kpt_json_path, os.path.join(k_fold_result, name,"test_json"))
-
-
-
-                # load config
-                cfg = Config.fromfile(args.config)
-
-                # merge CLI arguments to config
-                cfg = merge_args(cfg, args)
-
-                # set preprocess configs to model
-                if 'preprocess_cfg' in cfg:
-                    cfg.model.setdefault('data_preprocessor',
-                                        cfg.get('preprocess_cfg', {}))
-
-                # build the runner from config
-                runner = Runner.from_cfg(cfg)
-
-                # start training
-                runner.train()
-
-                try:
-                    shutil.rmtree(training_kpt_img_path)
-                    shutil.rmtree(training_kpt_json_path)
-                    shutil.rmtree(test_kpt_img_path)
-                    shutil.rmtree(test_kpt_json_path)
-                    print('Folder and its content removed') # Folder and its content removed
-                except:
-                    print('Folder not deleted')
-            else:
-                pass
             
+
+            save_model_path = os.path.join(root,ear_type, "model_save", name)
+            if not os.path.isdir(save_model_path):
+                os.makedirs(save_model_path)
+            else:
+                shutil.rmtree(save_model_path)
+                os.makedirs(save_model_path)
+            vars(args)['work_dir'] = save_model_path
+
+            names_copy = names.copy()
+            names_copy.remove(name)
+
+            training_kpt_img_path = os.path.join(root_eartype, "training_img")
+            training_kpt_json_path = os.path.join(root_eartype, "training_json")
+            create_dataset(names_copy, training_kpt_img_path, training_kpt_json_path, root_eartype, degrees, ear_type,use_bbox = True, dataset_type = "training")
+
+
+            test_kpt_img_path = os.path.join(root_eartype, "test_img")
+            test_kpt_json_path = os.path.join(root_eartype, "test_json")
+            create_dataset([name], test_kpt_img_path, test_kpt_json_path, root_eartype, degrees, ear_type, use_bbox = True, dataset_type = "test")
+
+
+
+            k_fold_result = os.path.join(root_eartype, "result")
+            copytree(test_kpt_img_path, os.path.join(k_fold_result, name,"test_img"))
+            copytree(test_kpt_json_path, os.path.join(k_fold_result, name,"test_json"))
+
+
+
+            # load config
+            cfg = Config.fromfile(args.config)
+
+            # merge CLI arguments to config
+            cfg = merge_args(cfg, args)
+
+            # set preprocess configs to model
+            if 'preprocess_cfg' in cfg:
+                cfg.model.setdefault('data_preprocessor',
+                                    cfg.get('preprocess_cfg', {}))
+
+            # build the runner from config
+            runner = Runner.from_cfg(cfg)
+
+            # start training
+            runner.train()
+
+            try:
+                shutil.rmtree(training_kpt_img_path)
+                shutil.rmtree(training_kpt_json_path)
+                shutil.rmtree(test_kpt_img_path)
+                shutil.rmtree(test_kpt_json_path)
+                print('Folder and its content removed') # Folder and its content removed
+            except:
+                print('Folder not deleted')
+        
 
 
         

@@ -194,7 +194,7 @@ def create_dataset(names, kpt_img_path, kpt_json_path, root_eartype, degrees, ea
     img_index = 0
     anno_file = create_annotation_file(ear_type)
     jsons = os.path.join(root_eartype, "2_json")
-    return_to_ori_size = os.path.join(root_eartype, "4_return_to_ori_size")
+    return_to_ori_size = os.path.join(root_eartype, "4_return_to_ori_size_new")
     mmdet_bboxes_json = os.path.join(root_eartype, "5_mmdet_bboxes_json")
 
     
@@ -305,7 +305,8 @@ def create_dataset(names, kpt_img_path, kpt_json_path, root_eartype, degrees, ea
 def main():
     
     root = "../keypoint"
-    save_root = "../MAT_inpainting"
+    save_root = "../MAT_inpainting_1.8"
+    # save_root = "../without_bbox"
     ear_types = ["free", "attached"]
     degrees = ['15cm_0mm_0deg', '15cm_25mm_5deg', '15cm_50mm_10deg', '20cm_0mm_0deg', '20cm_25mm_5deg', '20cm_50mm_10deg']
     for ear_type in ear_types:
@@ -321,21 +322,21 @@ def main():
         names = os.listdir(os.path.join(root_eartype,"0_original_video"))
         
         for name in names:
-            # save_model_path = os.path.join(save_root, ear_type, "model_save", name)
-            # if not os.path.isdir(save_model_path):
-            #     os.makedirs(save_model_path)
-            # else:
-            #     shutil.rmtree(save_model_path)
-            #     os.makedirs(save_model_path)
-            # vars(args)['work_dir'] = save_model_path
+            save_model_path = os.path.join(save_root, ear_type, "model_save", name)
+            if not os.path.isdir(save_model_path):
+                os.makedirs(save_model_path)
+            else:
+                shutil.rmtree(save_model_path)
+                os.makedirs(save_model_path)
+            vars(args)['work_dir'] = save_model_path
             
             names_copy = names.copy()
             names_copy.remove(name)
 
 
-            # training_kpt_img_path = os.path.join(root_eartype, "5_training_img")
-            # training_kpt_json_path = os.path.join(root_eartype, "5_training_json")
-            # create_dataset(names_copy, training_kpt_img_path, training_kpt_json_path, root_eartype, degrees, ear_type,use_bbox = True, dataset_type = "training")
+            training_kpt_img_path = os.path.join(root_eartype, "5_training_img")
+            training_kpt_json_path = os.path.join(root_eartype, "5_training_json")
+            create_dataset(names_copy, training_kpt_img_path, training_kpt_json_path, root_eartype, degrees, ear_type,use_bbox = True, dataset_type = "training")
 
 
             test_kpt_img_path = os.path.join(root_eartype, "5_test_img")
@@ -344,9 +345,8 @@ def main():
 
 
 
-            # k_fold_result = os.path.join("k_fold", "result")
-            # copytree(test_kpt_img_path, os.path.join(k_fold_result, ear_type, name,"5_test_img"))
-            # copytree(test_kpt_json_path, os.path.join(k_fold_result, ear_type, name,"5_test_json"))
+            # copytree(test_kpt_img_path, os.path.join(save_root, ear_type, name,"test_img"))
+            # copytree(test_kpt_json_path, os.path.join(save_root, ear_type, name,"test_json"))
             
             copytree(test_kpt_img_path, os.path.join(save_root, ear_type, "result", name,"test_img"))
             copytree(test_kpt_json_path, os.path.join(save_root, ear_type, "result", name,"test_json"))
